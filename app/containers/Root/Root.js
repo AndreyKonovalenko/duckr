@@ -1,18 +1,20 @@
 import React from 'react'
-import {Route} from 'react-router-dom'
+import {BrowserRouter as Router, Route} from 'react-router-dom'
 import { container, innerContainer } from './styles.css'
 import HomeContainer from '../Home/HomeContainer'
 
-class MainContainer extends React.Component {
+class Root extends React.Component {
     render () {
         return (
             <div className={container}>
                 <div className={innerContainer}>
-                    <Route path='/' component={HomeContainer}/>
+                    <Router>
+                        <Route path='/' component={HomeContainer}/>
+                    </Router>
                 </div>
             </div>
         )
     }
 }
 
-export default MainContainer
+export default Root
