@@ -1,20 +1,22 @@
 import React from 'react'
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch, NavLink} from 'react-router-dom'
 import { container, innerContainer } from './styles.css'
-import HomeContainer from '../Home/HomeContainer'
+import Navigation from '../../components/Navigation/Navigation'
+import HomeContainer from '../../components/Home/Home'
 
-class Root extends React.Component {
-    render () {
-        return (
-            <div className={container}>
-                <div className={innerContainer}>
-                    <Router>
-                        <Route path='/' component={HomeContainer}/>
-                    </Router>
+const Root = () => {
+    return (
+        <div className={container}>
+            <Router>
+                <div>
+                    <Navigation isAuthed={false}/>
+                    <div className={innerContainer}>
+                        <Route exact path='/' component={HomeContainer}/>
+                    </div>
                 </div>
-            </div>
-        )
-    }
+            </Router>
+        </div>
+    )
 }
 
 export default Root
