@@ -4,7 +4,7 @@ import { button } from './styles.css'
 
 const FacebookAuthButton = ({onAuth, isFetching}) => {
     return (
-        <button onClick={onAuth} className={button}>
+        <button className={button} onClick={onAuth}>
             {isFetching === true
                 ? 'Loading'
                 : 'Login with facebook'}
