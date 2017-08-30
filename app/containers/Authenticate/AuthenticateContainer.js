@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Authenticate from '../../components/Authenticate/Authenticate'
-//import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux'
 import auth from '../../helpers/auth'
 import { connect } from 'react-redux'
 import * as userActionCreators from '../../redux/modules/users'
@@ -12,12 +12,12 @@ class AuthenticateContainer extends React.Component {
         this.handleAuth = this.handleAuth.bind(this)
     }
     handleAuth () {
-        this.props.dispatch(userActionCreators.fetchingUser())
+        this.props.fetchingUser()
         auth().then((user) => {
-            this.props.dispatch(userActionCreators.fetchingUserSuccess(user.uid, user, Date.now()))
-            this.props.dispatch(userActionCreators.authUser(user.uid))
+            this.props.fetchingUserSuccess(user.uid, user, Date.now())
+            this.props.authUser(user.uid)
             console.log('Authed user', user)
-        }).catch((error) => this.props.dispatch(userActionCreators.fetchingUserFailure(error)))
+        }).catch((error) => this.props.fetchingUserFailure(error))
     }
     render () {
         return (
@@ -31,7 +31,10 @@ class AuthenticateContainer extends React.Component {
 
 AuthenticateContainer.propTypes = {
     isFetching: PropTypes.bool.isRequired,
-    error: PropTypes.string.isRequired
+    error: PropTypes.string.isRequired,
+    fetchingUser: PropTypes.func.isRequired,
+    fetchingUserSuccess: PropTypes.func.isRequired,
+    fetchingUserFailure: PropTypes.func.isRequired
 }
 
 function mapStateToProps (state) {
@@ -42,9 +45,21 @@ function mapStateToProps (state) {
     }
 }
 
-export default connect(mapStateToProps)(AuthenticateContainer)
+function mapDispatchToProps (dispatch) {
+    return bindActionCreators(userActionCreators, dispatch)
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AuthenticateContainer)
+
+// Shorter variant look below
 
 /*export default connect(
-    (state) => ({isFetching: state.isFetching, error: state.error}),
-    (dispatch) => bindActionCreators(userActionCreators, dispatch),
+    (state) => {
+        console.log('STATE', state)
+        return {isFetching: state.isFetching, error: state.error}
+    },
+    (dispatch) => bindActionCreators(userActionCreators, dispatch)
 )(AuthenticateContainer)*/
