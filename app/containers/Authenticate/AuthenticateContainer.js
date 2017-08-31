@@ -12,12 +12,7 @@ class AuthenticateContainer extends React.Component {
         this.handleAuth = this.handleAuth.bind(this)
     }
     handleAuth () {
-        this.props.fetchingUser()
-        auth().then((user) => {
-            this.props.fetchingUserSuccess(user.uid, user, Date.now())
-            this.props.authUser(user.uid)
-            console.log('Authed user', user)
-        }).catch((error) => this.props.fetchingUserFailure(error))
+        this.props.fetchAndHandleAuthedUser()
     }
     render () {
         return (
@@ -31,10 +26,7 @@ class AuthenticateContainer extends React.Component {
 
 AuthenticateContainer.propTypes = {
     isFetching: PropTypes.bool.isRequired,
-    error: PropTypes.string.isRequired,
-    fetchingUser: PropTypes.func.isRequired,
-    fetchingUserSuccess: PropTypes.func.isRequired,
-    fetchingUserFailure: PropTypes.func.isRequired
+    error: PropTypes.string.isRequired
 }
 
 function mapStateToProps (state) {
